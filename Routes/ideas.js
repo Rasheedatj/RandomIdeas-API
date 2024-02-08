@@ -13,9 +13,9 @@ router.get('/', async (req, res) => {
 });
 
 // get a single idea using an id
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const idea = Idea.findById(+req.params.id);
+    const idea = await Idea.findById(req.params.id);
     res.send({ success: true, data: idea });
   } catch (error) {
     res.status(500).send({ success: false, message: 'Something went wrong' });
@@ -62,8 +62,8 @@ router.put('/:id', async (req, res) => {
 // Delete idea
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedIdea = await Idea.findByIdAndDelete(req.params.id);
-    res.send({ sucess: true, data: deletedIdea });
+    await Idea.findByIdAndDelete(req.params.id);
+    res.send({ success: true, data: {} });
   } catch (error) {
     res.status(500).send({ success: false, message: 'something went wrong' });
   }
