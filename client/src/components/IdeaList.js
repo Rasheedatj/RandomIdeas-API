@@ -3,6 +3,7 @@ class IdeaList {
   constructor() {
     this._ideaListEl = document.querySelector('#idea-list');
     this._ideas = [];
+    this._username = localStorage.getItem('username');
     this.getIdeas();
 
     this._validTags = new Set();
@@ -15,15 +16,40 @@ class IdeaList {
     this._validTags.add('inventions');
   }
 
+  addEvent() {
+    this._ideaListEl.addEventListener('click', (e) => {
+      if (e.target.classList.contains('fa-times')) {
+        e.stopImmediatePropagation();
+        const dataId = e.target.parentElement.parentElement.dataset.id;
+        console.log(dataId);
+        this.deleteIdea(dataId);
+      }
+    });
+  }
+
+  async deleteIdea(id) {
+    try {
+      await IdeasApi.deleteIdea(id);
+      this._ideas.filter((idea) => idea.id !== id);
+      this.getIdeas();
+    } catch (error) {
+      console.log('You are not authorized to delete this resource');
+    }
+  }
+
   async getIdeas() {
     try {
       const res = await IdeasApi.getIdeas();
       this._ideas = res.data.data;
       this.render();
-      console.log(this._ideas);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  addIdeaToList(idea) {
+    this._ideas.push(idea);
+    this.render();
   }
 
   getTagClass(tag) {
@@ -40,8 +66,15 @@ class IdeaList {
   render() {
     this._ideaListEl.innerHTML = this._ideas
       .map((idea) => {
-        return `  <div class="card">
-        <button class="delete"><i class="fas fa-times"></i></button>
+        return `  <div class="card" data-id="${idea._id}">
+
+        ${
+          this._username === idea.username
+            ? `<button class='delete'>
+              <i class='fas fa-times'></i>
+            </button>`
+            : ''
+        }
         <h3>
          ${idea.text}
         </h3>
@@ -55,6 +88,7 @@ class IdeaList {
       </div>`;
       })
       .join('');
+    this.addEvent();
   }
 }
 export default IdeaList;

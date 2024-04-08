@@ -85,6 +85,11 @@ form label {
   margin: 5px 0;
 }
 
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
 .btn {
   background-color: #333;
   color: #fff;

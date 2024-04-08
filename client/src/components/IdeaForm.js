@@ -1,5 +1,9 @@
+import ideaAPI from '../services/ideaAPI';
+import IdeaList from './IdeaList';
+
 class IdeaForm {
   constructor() {
+    this.ideaList = new IdeaList();
     this._formModal = document.querySelector('#form-modal');
     this.render();
   }
@@ -25,15 +29,29 @@ class IdeaForm {
     this.addEventListener();
   }
 
-  _submitForm(e) {
+  async _submitForm(e) {
     e.preventDefault();
     const form = new FormData(this._form);
+
+    if (!form.get('text') || !form.get('tag') || !form.get('username')) {
+      alert('Please enter all fields');
+      return;
+    }
 
     const idea = {
       text: form.get('text'),
       tag: form.get('tag'),
       username: form.get('username'),
     };
+
+    // add idea to server
+    const newIdea = await ideaAPI.createIdea(idea);
+
+    // add idea to list
+    this.ideaList.addIdeaToList(newIdea.data.data);
+
+    // add username to localStorage
+    localStorage.setItem('username', idea.username);
 
     // Clear fields
     this._form.elements.text.value = '';
