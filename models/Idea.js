@@ -9,9 +9,12 @@ const IdeaSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a tag'],
   },
+  username: {
+    type: String,
+  },
   date: {
     type: Date,
-    default: Date.now,
+    default: new Date().toISOString().slice(0, 10),
   },
 });
 
