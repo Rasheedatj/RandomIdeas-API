@@ -21,7 +21,6 @@ class IdeaList {
       if (e.target.classList.contains('fa-times')) {
         e.stopImmediatePropagation();
         const dataId = e.target.parentElement.parentElement.dataset.id;
-        console.log(dataId);
         this.deleteIdea(dataId);
       }
     });
@@ -33,7 +32,7 @@ class IdeaList {
       this._ideas.filter((idea) => idea.id !== id);
       this.getIdeas();
     } catch (error) {
-      console.log('You are not authorized to delete this resource');
+      alert('You are not authorized to delete this resource');
     }
   }
 

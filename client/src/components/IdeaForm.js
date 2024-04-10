@@ -58,9 +58,9 @@ class IdeaForm {
     this._form.elements.tag.value = '';
     this._form.elements.username.value = '';
 
-    document.dispatchEvent(new Event('closemodal'));
+    this.ideaList.render();
 
-    console.log(idea);
+    document.dispatchEvent(new Event('closemodal'));
   }
 
   addEventListener() {
