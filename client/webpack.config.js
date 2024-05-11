@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+require('dotenv').config();
+const URL = process.env.URL;
 
 module.exports = {
   mode: 'production',
@@ -19,7 +21,7 @@ module.exports = {
     compress: true,
     historyApiFallback: true,
     proxy: {
-      '/api': 'http://localhost:5000',
+      '/api': URL,
     },
   },
 
