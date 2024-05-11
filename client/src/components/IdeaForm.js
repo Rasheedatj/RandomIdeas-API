@@ -5,6 +5,7 @@ class IdeaForm {
   constructor() {
     this.ideaList = new IdeaList();
     this._formModal = document.querySelector('#form-modal');
+    this._username = localStorage.getItem('username');
     this.render();
   }
 
@@ -13,7 +14,7 @@ class IdeaForm {
     <form id="idea-form">
     <div class="form-control">
       <label for="idea-text">Enter a Username</label>
-      <input type="text" name="username" id="username" />
+      <input type="text" name="username" id="username" value=''/>
     </div>
     <div class="form-control">
       <label for="idea-text">What's Your Idea?</label>
@@ -26,6 +27,10 @@ class IdeaForm {
     <button class="btn" type="submit" id="submit">Submit</button>
   </form>`;
     this._form = document.querySelector('#idea-form');
+    this._username
+      ? (document.querySelector('#username').value = this._username)
+      : '';
+
     this.addEventListener();
   }
 
