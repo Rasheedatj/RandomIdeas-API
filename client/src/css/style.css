@@ -160,6 +160,10 @@ textarea:focus {
   background: orange;
 }
 
+.tag-market {
+  background-color: #000;
+}
+
 .delete {
   position: absolute;
   top: 10px;
